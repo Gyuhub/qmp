@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>qmp_simulation</name>
+  <version>0.0.0</version>
+  <description>
+    ROS packages for the qmp simulation (meta package)
+  </description>
+  <license>Apache 2.0</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>qmp_gazebo</exec_depend>
+  <export><metapackage/></export>
+</package>
