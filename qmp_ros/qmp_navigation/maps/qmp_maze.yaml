@@ -1,0 +1,7 @@
+image: /home/gyubuntu/catkin_ws/src/qmp/qmp_ros/qmp_navigation/maps/qmp_maze.pgm
+resolution: 0.050000
+origin: [-1.804135, -1.825765, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

@@ -1,10 +1,10 @@
 <launch>
+
     <!--  ************** Global Parameters ***************  -->
-    <param name="use_sim_time" value="false"/>
+    <param name="use_sim_time" value="true"/>
     <arg name="controller"  default="mpc" doc="opt: dwa, mpc, pure_pursuit"/> 
     <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
-    <arg name="map_file" default="$(find qmp)/qmp_ros/qmp_navigation/maps/qmp_map_.yaml"/>
-    <!-- <arg name="world_file" default="$(find qmp)/qmp_simulation/qmp_gazebo/worlds/qmp_map.world"/> -->
+    <arg name="map_file" default="$(find qmp)/qmp_ros/qmp_navigation/maps/qmp_maze_map.yaml"/>
     <arg name="tf_prefix"  default=""/>
 
     <!--  ************** GAZEBO Simulator ***************  -->
@@ -16,15 +16,29 @@
     <arg name="yaw" default="0"/>
     <arg name="gui" default="false"/>
 
-    <!--  ************** Signal interrupt ***************  -->
-    <node name="signal_interrupt" pkg="signal_handle_ros" type="signal_interrupt" />
     <!--  ************** Robot model ***************  -->
     <!--  **************  Turtlebot3 ***************   -->
     <include file="$(find qmp)/qmp_ros/qmp_bringup/launch/qmp_remote.launch">
         <arg name="model" value="$(arg model)" />
     </include>
 
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!-- <arg name="world_name" value="$(find mpc_ros)/worlds/sq_world.world"/> -->
+        <arg name="world_name" value="$(find qmp)/qmp_simulation/qmp_gazebo/worlds/qmp_maze_map.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include> 
+    <!-- TRUTLEBOT TEST -->
+
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -param robot_description" />
+      
+    <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node> -->
+
 
     <!--  ************** Map **************  -->
     <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen" >
@@ -32,7 +46,9 @@
     </node> -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen" />
 
+
     <!--  ************** Localization **************  -->
+    
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_amcl_params.yaml" command="load" />
         <param name="initial_pose_x"            value="$(arg x_pos)"/>
@@ -50,8 +66,8 @@
         
         <!-- Global Planner -->
         <param name="base_global_planner" value="RAstar_planner/RAstarPlannerROS" />
-        <param name="planner_frequency" value="1.0" />
-        <param name="planner_patience" value="5.0" />
+        <!-- <param name="planner_frequency" value="1.0" />
+        <param name="planner_patience" value="5.0" /> -->
         
         <!-- Local Planner -->
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_mpc_params.yaml" command="load" />
@@ -63,4 +79,5 @@
 
     <!--  ************** Visualisation **************  -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qmp)/qmp_ros/qmp_navigation/rviz/qmp_mpc_navigation.rviz"/>
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qp_mpc)/rviz/mpc_turtlebot_navigation.rviz"/> -->
 </launch>

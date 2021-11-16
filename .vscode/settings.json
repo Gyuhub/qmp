@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/gyubuntu/Tools/Cartographer/install_isolated/lib/python2.7/dist-packages",
+        "/home/gyubuntu/catkin_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/gyubuntu/Tools/Cartographer/install_isolated/lib/python2.7/dist-packages",
+        "/home/gyubuntu/catkin_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ]
+}

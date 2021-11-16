@@ -1,10 +1,11 @@
 <launch>
+
     <!--  ************** Global Parameters ***************  -->
-    <param name="use_sim_time" value="false"/>
+    <param name="use_sim_time" value="true"/>
     <arg name="controller"  default="mpc" doc="opt: dwa, mpc, pure_pursuit"/> 
     <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
-    <arg name="map_file" default="$(find qmp)/qmp_ros/qmp_navigation/maps/qmp_map_.yaml"/>
-    <!-- <arg name="world_file" default="$(find qmp)/qmp_simulation/qmp_gazebo/worlds/qmp_map.world"/> -->
+    <arg name="map_file" default="$(find qmp)/qmp_ros/qmp_navigation/maps/qmp.yaml"/>
+    <arg name="world_file" default="$(find qmp)/qmp_simulation/qmp_gazebo/worlds/qmp.world"/>
     <arg name="tf_prefix"  default=""/>
 
     <!--  ************** GAZEBO Simulator ***************  -->
@@ -13,13 +14,21 @@
     <arg name="z_pos" default="0.0"/>
     <arg name="roll" default="0"/>
     <arg name="pitch" default="0"/>
-    <arg name="yaw" default="0"/>
+    <arg name="yaw" default="1.5707"/>
     <arg name="gui" default="false"/>
 
-    <!--  ************** Signal interrupt ***************  -->
-    <node name="signal_interrupt" pkg="signal_handle_ros" type="signal_interrupt" />
     <!--  ************** Robot model ***************  -->
-    <!--  **************  Turtlebot3 ***************   -->
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_file)"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include> 
+    
+    <!-- Turtlebot3 -->
     <include file="$(find qmp)/qmp_ros/qmp_bringup/launch/qmp_remote.launch">
         <arg name="model" value="$(arg model)" />
     </include>
@@ -27,12 +36,13 @@
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3_burger -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -param robot_description" />
 
     <!--  ************** Map **************  -->
-    <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen" >
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen" >
         <param name="frame_id" value="map"/>
-    </node> -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen" />
+    </node>
+
 
     <!--  ************** Localization **************  -->
+    
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_amcl_params.yaml" command="load" />
         <param name="initial_pose_x"            value="$(arg x_pos)"/>
@@ -42,7 +52,6 @@
 
     <!--  ************** Navigation ***************  -->    
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_move_base_params.yaml" command="load" />
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_costmap_common_params.yaml" command="load" ns="local_costmap" />
         <rosparam file="$(find qmp)/qmp_ros/qmp_navigation/params/qmp_local_costmap_params.yaml" command="load" />

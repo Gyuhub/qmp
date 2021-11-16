@@ -103,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES qmp
-  CATKIN_DEPENDS qmp_msgs qmp_ros qmp_simulation
+  CATKIN_DEPENDS
 #  DEPENDS system_lib
 )
 

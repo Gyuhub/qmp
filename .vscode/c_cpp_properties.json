@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/gyubuntu/Tools/Cartographer/install_isolated/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/gyubuntu/catkin_ws/devel/include/**",
+        "/home/gyubuntu/catkin_ws/src/qp_mpc/include/**",
+        "/home/gyubuntu/catkin_ws/src/relaxed_astar_global_planner/include/**",
+        "/home/gyubuntu/catkin_ws/src/turtlebot3_simulations/turtlebot3_fake/include/**",
+        "/home/gyubuntu/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/**",
+        "/home/gyubuntu/catkin_ws/src/turtlebot3/turtlebot3_slam/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

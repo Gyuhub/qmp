@@ -68,10 +68,12 @@
   <exec_depend>roscpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
 
+  <exec_depend>nav_core</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
+    <nav_core plugin="${prefix}/relaxed_astar_planner_plugin.xml" />
+    <nav_core plugin="${prefix}/mpc_plugin.xml"/>
   </export>
 </package>

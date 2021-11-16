@@ -1,0 +1,7 @@
+image: /home/gyubuntu/catkin_ws/src/qmp/qmp_ros/qmp_navigation/maps/qmp_map_sim.pgm
+resolution: 0.010000
+origin: [-0.410820, -1.710000, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+
