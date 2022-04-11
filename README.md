@@ -44,3 +44,4 @@ cmake ..
 make all
 make install
 ```
+![Rviz](https://user-images.githubusercontent.com/78638866/162732801-0361cb45-4cd8-4757-82b0-68e2da48e1fa.gif)
